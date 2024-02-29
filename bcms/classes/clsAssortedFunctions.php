@@ -138,12 +138,16 @@
             $inner_match=array();
             $start_count=array();
             $end_count=array();
-            $open_char=array("{","<");
-            $close_char=array("}",">");
+            //$open_char=array("{","<");
+            //$close_char=array("}",">");
+            $open_char=array("{");
+                $close_char=array("}");
             $custom_char=array($open_char[0],$close_char[0]);
-            $html_char=array($open_char[1],$close_char[1]);
-            $tag_array=array("custom"=>$custom_char,"html"=>$html_char);
-            $tag_array_count=array("custom"=>2,"html"=>1);
+            //$html_char=array($open_char[1],$close_char[1]);
+            //$tag_array=array("custom"=>$custom_char,"html"=>$html_char);
+            $tag_array=array("custom"=>$custom_char);
+            //$tag_array_count=array("custom"=>2,"html"=>1);
+            $tag_array_count=array("custom"=>2);
             $current_tag=0;
             
             while($search<=$buffer_size){
@@ -227,6 +231,7 @@
                 
             }
 
+            /*
             for($x=0;$x<count($match_array);$x++){
                 if(isset($inner_array[$x]['html'])){
 
@@ -241,10 +246,35 @@
                 }
                 
             }
-            
-            return $buffer;
+            */
+            //print_r($inner_array);
+            return array($match_array,$tag_match_array,$inner_array);//$buffer;
         }
 
+        function swap_tags($template_code,$match_array,$tag_match_array,$inner_array)
+        {
+            $buffer=$template_code;
+            //print_r($match_array);
+            //print_r($tag_match_array);
+            //print_r($inner_array);
+            for($x=0;$x<=count($match_array);$x++){
+                if(isset($inner_array[$x]['html'])){
+                    //print($inner_array[$x]['html']);
+                    if(isset($tag_match_array[$inner_array[$x]['html']])){
+                            //$buffer=str_replace($match_array[$x], $tag_match_array[$inner_array[$x]['html']], $buffer);
+                            $buffer=str_replace($match_array[$x], $tag_match_array[$inner_array[$x]['html']], $buffer);
+                        
+                        //$query.="| ".$x." |\n ".$inner_array[$x]."\n--".$match_array[$x]."=>".$tag_match_array[$inner_array[$x]['html']];//var_export($tag_match_array[$inner_array[$x]],true);
+                        
+                    }else{
+                        //$buffer=str_replace($match_array[$x], "", $buffer);
+                    }
+                }
+                
+            }
+            //print_r($buffer);
+            return $buffer;
+        }
 
 
         function callback_big($buffer)

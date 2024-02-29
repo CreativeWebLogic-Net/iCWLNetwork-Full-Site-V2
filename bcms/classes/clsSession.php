@@ -1,5 +1,6 @@
 <?php
-    class clsSession extends SessionHandler
+    //class clsSession extends clsMySessionHandler
+    class clsSession
     {   
         private $ip_address="";
         private $ip_address_type="ip4";
@@ -28,6 +29,7 @@
             //$this->set_ip_address($ip_address);
             //print "xx";
             $_SESSION['new_membersID']=666;
+            //print("todo 00001");
         }
     
         public function read($id)
@@ -40,11 +42,13 @@
                 $this->set_data($data,"serialize");
                 //$this->data=unserialize((string) $data,$options);
             }else{
+                /*
                 $data = parent::read($this->id);
                 $this->data=$data;
                 if (!$this->data) {
                     $this->data="";
                 }
+                */
             }
             return $this->data;
             
@@ -293,7 +297,7 @@
             if($this->use_db){ 
                 $this->database_write();
             }else{
-                $data=parent::write($this->id, $this->data);
+                //$data=parent::write($this->id, $this->data);
             }
             return $data;
         }

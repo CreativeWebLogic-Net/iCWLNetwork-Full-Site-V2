@@ -21,7 +21,24 @@
         
     }
     */
+	/*
+	====================================================creativeweblogic.net
     if($DB['server_type']=="MySQL"){
+       
+        $DB['server_tag']="db-hg-reseller.php";
+        $DB['server_desc']="HostGator Reseller";
+        $DB['current_dir']="D:/Program Files/Ampps/www/";
+        $DB['server_number']=1;
+        $DB['hostname']="localhost";
+        $DB['usernamedb']='creativewe_bubblelite';
+        $DB['passworddb']='DickSux5841*';
+        $DB['dbName']='creativewe_bubblelite';
+        $DB['port']=3306;
+        
+    }
+	*/
+	//====================================================localhost:8765
+	if($DB['server_type']=="MySQL"){
        
         $DB['server_tag']="db-hg-reseller.php";
         $DB['server_desc']="HostGator Reseller";

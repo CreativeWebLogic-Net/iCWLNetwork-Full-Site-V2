@@ -1,6 +1,6 @@
 <?php
 
-    class clsTestServer{
+    class clsTestServer extends clsFormCreator{
         private $text_data=array();
         private $Message="";
 

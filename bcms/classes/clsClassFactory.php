@@ -8,23 +8,31 @@
         public $name_map=array('clsLog'=>'log','clsDatabaseInterface'=>'r','clsSession'=>'sess','clsAssortedFunctions'=>'log','clsExceptionHandler'=>'ex');
 
         function __construct(){
+            
             self::Initialize_Basic_Classes();
+            
 		}
         function Initialize_Basic_Classes(){
-            self::$vars=new clsObjectAccess();
+            //exit("todo");
+            //self::$vars=new clsObjectAccess();
 
-
+            //print("todo 001");
             $ex=new clsExceptionHandler();
             self::$all_vars['ex']=new clsGenericProxy($ex);
+            //print("todo 002");
             $log=new clsLog();
             self::$all_vars['log']=new clsGenericProxy($log);
+            //print("todo 003");
             $r=new clsDatabaseInterface();
             self::$all_vars['r']=new clsGenericProxy($r);
+            ///print("todo 004");
             $sess=new clsSession();
+            //print("todo 0041");
             self::$all_vars['sess']=new clsGenericProxy($sess);
+            //print("todo 005");
             $a=new clsAssortedFunctions();
             self::$all_vars['a']=new clsGenericProxy($a);
-
+            //print("todo 006");
             //print_r(self::$all_vars);
             //exit("todo");
 		}

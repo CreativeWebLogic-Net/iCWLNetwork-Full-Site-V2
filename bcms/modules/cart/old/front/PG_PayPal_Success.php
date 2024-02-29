@@ -1,0 +1,1 @@
+Thank You For Your Purchase Your Goods Will Be Delivered Shortly. 

@@ -52,8 +52,9 @@
 			return $output_array;
 		}
 
-        /*
-        public function Run_Template(){
+        
+        public function Run_Template_Import(){
+            $template_code="";
             if(isset($this->template_data["db"]['dir'])){
 				$this->template_data['My_Dir']=$this->app_data['APPBASEDIR']."templates/".$this->template_data["db"]['dir'];
 				//$load_file=$this->template_data['My_Dir']."/index.php";
@@ -62,11 +63,12 @@
 				//print $load_file;
 				$this->log->general("-ar Loading Template->",9,$this->template_data["db"]);
 				//echo"\n\n-10----".$load_file."----------------------------------------------------\n\n";
-                /*
+                
 				if(file_exists($load_file)){
 					$this->app_data["include_callback"]="callback_template";
 					$filepath=$load_file;
-		            $this->Load_File($load_file);
+		            $template_code=$this->Load_File($load_file);
+                    //echo"\n\n-1001----".$template_code."----------------------------------------------------\n\n";
 				}else{
 					throw new Exception('Template not loading.');
 				}
@@ -74,8 +76,13 @@
 			}else{
 				exit("No Template File");
 			}
+            //$template_code = wordwrap($template_code, 50, "\n<br>");
+            //echo"\n\n-1001----\n\n".base64_decode($template_code)."\n\n----------------------------------------------------\n\n";
+            //echo"\n\n-1001----\n\n".$template_code."\n\n----------------------------------------------------\n\n";
+            
+            return $template_code;
         }
-        */
+        
         public function Run_Template(){
             
             
@@ -84,6 +91,7 @@
             if($template_size>0){
                 
 				return base64_decode($this->template_data["db"]['filedata']);
+                //return $this->template_data["db"]['filedata'];
 				
 				
 			}else{
@@ -92,6 +100,7 @@
         }
 
         private function Load_File($file_wrapper){
+            $template_code="";
             $normal=$file_wrapper."/index.php";
             $new=$file_wrapper."/index-new.php";
             $run_file="";
@@ -105,6 +114,7 @@
             $template_code = base64_encode(file_get_contents($run_file));
 
             $this->log->general("-FFF Loading Template->".$run_file,9,$template_code);
+            return $template_code;
         }
 
         public function Template_Init(){

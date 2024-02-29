@@ -41,14 +41,25 @@
         public $name_map=array('clsDomain'=>'dom','clsMembers'=>'mb','clsContent'=>'con','clsLanguage'=>'lang','clsTemplate'=>'tmpt','clsExceptionHandler'=>'exc');
 
         function __construct(){
+            parent::__construct();
+            $this->Set_Exception_Handler();
+            $this->Set_System_bindings();
+            //echo "I Am Legendary 001 \n";
             $this->Set_Headers();
+            
             $this->Find_Current_Directory();
+            //echo "I Am Legendary 0002 \n";
             $this->Set_Autoloader();
             $this->Set_App_Vars();
+            //echo "I Am Legendary 0003 \n";
             $this->Set_Base_Constants();
-            parent::__construct();
-            $this->execute_webpage();
+            //echo "I Am Legendary 300012";
             
+            //echo "I Am Legendary 400001";
+            
+            //echo "I Am Legendary 5000";
+            $this->execute_webpage();
+            //echo "I Am Legendary 60000";
 		}
 
         public function execute_webpage(){
@@ -58,7 +69,7 @@
             //$this->Set_Variable_Array();
             //$this->Set_Data_Array_Vars();
             
-            $this->Set_System_bindings();
+            
             
             
             //$this->Set_Exception_Handler();
@@ -71,12 +82,12 @@
             
 			//$this->Set_Log();
 			//$this->Set_Variables();
-            
+            //echo "I Am Legendary 000200 \n";
             $this->Set_DataBase();
             $this->Set_Session_Handler();
             
             //$this->Set_Each_Data_Vars();
-            
+            //echo "I Am Legendary 30000 \n";
             $this->Set_Asset_Servers();
             
             $this->Set_DataBase_Data_Array();
@@ -85,11 +96,12 @@
             $this->Set_Domain_Init();
             $this->Set_Content_Init();
             $this->Set_Language_Init();
+            //echo "I Am Legendary 40000 \n";
             $this->Set_Template_Init();
             $this->Set_Language_Definitions();
             $this->Set_Template();
 
-            
+            //echo "I Am Legendary 50000 \n";
             
             //$this->Set_Content();
             $this->Output_HTML();
@@ -111,9 +123,9 @@
 
         
         function Set_Autoloader(){
-            include($this->Current_Dir."/classes/clsAutoloader.php");
+            //include($this->Current_Dir."/classes/clsAutoloader.php");
             // Register the static method as the autoload function
-            spl_autoload_register(array("clsAutoloader", "load"));
+            
         }
 
         
@@ -135,9 +147,10 @@
         }
 
         function Set_System_bindings(){
-            error_reporting(E_ALL);
+            error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+            //error_reporting(E_ALL);
             ini_set('display_errors', 1);
-            $this->Set_Exception_Handler();
+            
             //$this->Set_Error_Handler();
         }
 
@@ -412,10 +425,19 @@
         }
 
         function Set_Template(){
+            $import_template=false;
+            //$import_template=true;
+
             $template_code="";
-            $this->template_code=$this->all_classes["template"]->Run_Template();
+            if($import_template){
+                $this->template_code=$this->all_classes["template"]->Run_Template_Import();
+            }else{
+                $this->template_code=$this->all_classes["template"]->Run_Template();
+            }
             
-            //print $template_code;
+            
+            //print "vvv".base64_decode($this->template_code);
+            //print "vvv".$this->template_code;
         }
 
         function Set_Domain_Init(){
@@ -504,23 +526,43 @@
 
         function Output_HTML(){
             $output_code=$this->template_code;
+            //print(base64_encode($output_code));
+            
             //$keywords=$this->all_data_arrays["content_data"]["db"];
             //print_r(self::$vars->content_data["db"]);
             $keywords=self::$vars->content_data["db"];
-            $main_menu="";
-            //print "->".$this->content_output_html."<-\n";
+            $menu=new clsMenu(self::$vars->domain_user_data,self::$vars->domain_data,self::$vars->content_data,self::$vars->app_data);
+
+            //$main_menu="uuu";//$menu->Horizontal_Rounded();
+            $main_menu=$menu->Horizontal_Rounded();
             $main_content=$this->content_output_html;
+            $side_bar=$menu->Vertical_Sub_Page();
+            //$main_menu=base64_encode($menu->Horizontal_Rounded());
+            //$main_content=base64_encode($this->content_output_html);
+            //print "->".$this->content_output_html."<-\n";
             
+            //print_r($keywords);
             $tag_match_array=array("asset-sever"=>self::$vars->app_data['current_asset-sever'],"html-title"=>$keywords['title'],"dc-title"=>$keywords['meta_title'],
             "meta_description"=>$keywords['meta_description'],"meta_keywords"=>$keywords['meta_keywords'],"main-menu"=>$main_menu,"meta-title"=>$keywords['meta_title'],
-            "main-title"=>$keywords['title'],"main-content"=>$main_content);
-            
+            "main-title"=>$keywords['title'],"main-content"=>$main_content,"side-bar"=>$side_bar);
+
+            //$tag_match_array=array("asset-sever"=>"asset-sever","html-title"=>"html-title","dc-title"=>"dc-title",
+            //"meta_description"=>"meta_description","meta_keywords"=>"meta_keywords","main-menu"=>"main-menu","meta-title"=>"meta-title",
+            //"main-title"=>"main-title","main-content"=>"I Am God","side-bar"=>"I Am Legend");
+
+            //$tag_match_array=array("main-content"=>"I Am God");
+
+            //print_r($tag_match_array);
             //print "->".$this->template_code."<-\n";
             //$tag_match_array=array();
             //$output_code=$this->template_code;
-            $output_code=clsClassFactory::$all_vars['a']->modify_tags($this->template_code,$tag_match_array);
+            //$output_code=clsClassFactory::$all_vars['a']->modify_tags($this->template_code,$tag_match_array);
+            $output_arrays=clsClassFactory::$all_vars['a']->modify_tags($this->template_code,$tag_match_array);
+            //print_r($output_arrays);
+            $output_code=clsClassFactory::$all_vars['a']->swap_tags($this->template_code,$output_arrays[0],$output_arrays[1],$output_arrays[2]);
             //$this->a->modify_tags($this->template_code,$tag_match_array);
             print $output_code;
+            //
             //print_r( $this->all_data_arrays);
         }
 

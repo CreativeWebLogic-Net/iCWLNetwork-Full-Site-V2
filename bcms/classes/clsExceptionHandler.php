@@ -4,7 +4,8 @@ class clsExceptionHandler
 {
 	public function handle(Throwable $ex)
 	{
-		echo "xxx".var_export($ex,true);
+		//echo "0=>";
+		echo "\n Error=>".var_export($ex,true)." \n";
 	}
 }
 

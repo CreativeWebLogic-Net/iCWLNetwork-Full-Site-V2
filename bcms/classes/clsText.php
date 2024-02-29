@@ -90,7 +90,12 @@
         */
         function Main_Display(){
             //print_r($this->text_data);
-            return $this->text_data["db"]['content_text'];
+            $ret_value="";
+            if(isset( $this->text_data["db"]['content_text'])){
+                $ret_value=$this->text_data["db"]['content_text'];
+            }
+                
+            return $ret_value;
         }
 	
     }
